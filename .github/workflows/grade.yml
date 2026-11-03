@@ -1,0 +1,70 @@
+name: self-test-feedback
+
+# 只在默认分支的 push 上跑：学生用「Use this template」建出自己的仓库，
+# 做完题 push 到 main 即触发。Pull Request、其它分支都不跑，
+# 免得同一份作业产生多份互相打架的成绩。
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: self-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  self-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      # 允许本 job 换取 GitHub OIDC 令牌：notify_center.py 上报时随请求
+      # 交给站点验签，站点据此阻断外部直接 POST 刷榜。
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          # 版本只写在 go.mod 一处，避免"本地能编译、CI 编译失败"。
+          go-version-file: go.mod
+          cache: true
+
+      # 课次与中心站点地址都来自仓库根目录的 config.json。
+      # 这一步把 LESSON_PATH、TEST_ROOT、CENTER_API 写进 GITHUB_ENV 供后续步骤使用。
+      # 课次缺失或非法时它直接失败、本 job 随即中止——没有明确课次就没有可计分的报告。
+      - name: 校验 config.json 并解析配置
+        id: config
+        shell: bash
+        run: python3 .github/scripts/check_config.py
+
+      # 只跑 LESSON_PATH 指定的那一课；该课下的每个 testNN 逐包独立执行，
+      # 一道题编译失败不会影响其它题继续评分。
+      - name: 按课次跑测试并评分
+        if: steps.config.outcome == 'success'
+        shell: bash
+        run: |
+          python3 .github/scripts/run_go_tests.py \
+            --root "$TEST_ROOT" \
+            --result result.json \
+            --summary score.md \
+            --raw-dir test-results
+
+      # 模板仓库自己的 CI 跳过上报：它不是学生，推一次就在看板上多一条假记录。
+      # 只跳过这一步——测试与产物照常跑，模板仍能自检 workflow 是否正常。
+      # github.repository 的字符串比较不区分大小写，按官方大小写书写即可。
+      - name: 上传报告到中心站点（尽力而为）
+        if: always() && steps.config.outcome == 'success' && github.repository != 'RedrockTeam/redrock_backend_practice_2026'
+        continue-on-error: true
+        shell: bash
+        run: python3 .github/scripts/notify_center.py
+
+      # 这一步失败不该让流水线变红：变红只应该代表"配置有误"或"测试没过"。
+      - name: 上传本次运行的产物
+        if: always() && steps.config.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-test-${{ github.sha }}
+          path: |
+            result.json
+            score.md
+            test-results/

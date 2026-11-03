@@ -6,6 +6,7 @@ package app
 
 import (
 	"fmt"
+	"redrock/teaching-exercises/lesson-01-basics/test04/hello/calc"
 	// TODO: 在这里补上 calc 包的导入路径。
 	//
 	// 导入路径 = module 路径 + 包所在的子目录。
@@ -17,12 +18,12 @@ import (
 
 // Sum 借助 calc 包完成加法。
 func Sum(a, b int) int {
+	return calc.Add(a, b)
 	// TODO: 调用 calc.Add。
-	return 0
 }
 
 // Describe 返回 "1 + 2 = 3" 这样的一行，末尾没有换行。
 func Describe(a, b int) string {
 	// TODO: 用 fmt.Sprintf 把算式和 calc.Add 的结果拼起来。
-	return fmt.Sprintf("")
+	return fmt.Sprintf("%d + %d = %d", a, b, calc.Add(a, b))
 }

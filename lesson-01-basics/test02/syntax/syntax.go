@@ -43,13 +43,13 @@ func SumTo(n int) int {
 		}
 	// TODO: 声明一个累加变量，再用 for 循环累加。
 	// Go 的 for 条件不写小括号，但三段之间仍然用分号。
-	return 0
+	return sum
 }
 
 // Describe 返回 "小明 今年 18 岁" 这样的一行描述，末尾没有换行。
 // 名字和年龄之间、年龄和 "岁" 之间各有一个空格。
 func Describe(name string, age int) string {
-	return fmt.Sprintf("%s 今年 %d 岁 ", name,age)
+	return fmt.Sprintf("%s 今年 %d 岁 ", name, age)
 	// TODO: 用 fmt.Sprintf 拼出这句话。
 	// Sprintf 和 Printf 的格式化规则一样，但它返回字符串而不是打印。
 	// 字符串用 %s，整数用 %d。

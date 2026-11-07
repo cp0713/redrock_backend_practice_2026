@@ -37,5 +37,5 @@ func (u *User) grow() {
 // Go 的小写标识符是「包内可见」，不是 C 的 static「文件内可见」。
 func (u *User) Stage() string {
 	// TODO: 用 stage 函数把 age 换算成阶段字符串。
-	return "stage(u.age)"
+	return stage(u.age)
 }

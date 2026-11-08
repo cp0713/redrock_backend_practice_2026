@@ -25,17 +25,17 @@ func Average(scores []int) float64 {
 	for _, score := range scores {
 		total += score
 	}
-	return float64(total / len(scores))
+	return float64（total） / float64(len(scores))
 }
 
 // CountChars 返回 s 里有几个字符（“红岩网校”是 4 个字符）。
 func CountChars(s string) int {
-	return len(s)
+	return len([]rune(s))
 }
 
 // Reverse 把 s 按字符倒过来（“红岩”倒过来是“岩红”）。
 func Reverse(s string) string {
-	b := []byte(s)
+	b := []rune(s)
 	for i, j := 0, len(b)-1; i < j; i, j = i+1, j-1 {
 		b[i], b[j] = b[j], b[i]
 	}

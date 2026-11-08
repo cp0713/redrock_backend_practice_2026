@@ -9,7 +9,7 @@ package pointer
 const PredictArrayByValue = [1 2 3]
 
 // PredictPointerArgument 是 DemoPointerArgument() 的返回值。
-const PredictPointerArgument = 10
+const PredictPointerArgument = 11
 
 // PredictStructPointer 是 DemoStructPointer() 的返回值。
-const PredictStructPointer = 18
+const PredictStructPointer = 20

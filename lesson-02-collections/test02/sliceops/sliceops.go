@@ -21,10 +21,9 @@ func DoubleInPlace(values []int) {
 // AppendOne 返回在 values 末尾追加 x 之后的新切片。
 // 注意：不能丢掉 append 的返回值。
 func AppendOne(values []int, x int) []int {
-	values = append(values,x)
 	// TODO: return append(values, x)。
 	// append 可能扩容并返回新的切片头，不能只写 append(...) 然后 return values。
-	return values
+	return append(values,x)
 }
 
 // Sum 返回 values 中所有元素的和；空切片返回 0。

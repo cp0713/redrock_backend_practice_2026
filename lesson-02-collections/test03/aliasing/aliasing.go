@@ -34,11 +34,13 @@ func Branch(base []string, a, b string) ([]string, []string) {
 func RemoveIf(values []int, drop func(int) bool) []int {
 	// BUG 1: 边遍历边删除，删掉 i 之后下一个元素挪到了 i，却被 i++ 跳过。
 	// BUG 2: append(values[:i], values[i+1:]...) 是原地挪动，调用方的数据被改乱了。
-	result := make([]int, 0)
+result := []int{}
     for _, v := range values {
         if !drop(v) {
             result = append(result, v)
-}
+        }
+    }
+    return result
 		}
 // Student 是一条名册记录。
 type Student struct {

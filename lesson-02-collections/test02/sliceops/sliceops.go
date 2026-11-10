@@ -14,8 +14,8 @@ func Clone(values []int) []int {
 func DoubleInPlace(values []int) {
 	// TODO: 用下标访问 values[i]。
 	// for _, value := range values 拿到的 value 是元素副本，改它不会改切片。
-	for _, value := range values {
-		values[i] *= 2
+for i := 0; i < len(values); i++ {
+        values[i] *= 2
 	}
 }
 

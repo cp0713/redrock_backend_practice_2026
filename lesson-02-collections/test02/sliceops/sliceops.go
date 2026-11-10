@@ -5,7 +5,7 @@ package sliceops
 func Clone(values []int) []int {
 	// TODO: 用 make + copy，或者 append([]int(nil), values...)。
 	// 直接 return values 只是复制了切片头，底层数组仍然是同一份。
-	return append([]int(nil), values...
+	return append([]int(nil), values...)
 }
 
 // DoubleInPlace 把 values 中每个元素都乘以 2，并且原地修改 values。

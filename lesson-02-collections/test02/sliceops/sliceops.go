@@ -3,11 +3,9 @@ package sliceops
 // Clone 返回 values 的一份独立副本。
 // 修改副本中的元素，不应该影响原来的 values。
 func Clone(values []int) []int {
-	cloned := make([]int, len(values))
-    copy(cloned, values) 
 	// TODO: 用 make + copy，或者 append([]int(nil), values...)。
 	// 直接 return values 只是复制了切片头，底层数组仍然是同一份。
-	return cloned
+	return append([]int(nil), values...
 }
 
 // DoubleInPlace 把 values 中每个元素都乘以 2，并且原地修改 values。

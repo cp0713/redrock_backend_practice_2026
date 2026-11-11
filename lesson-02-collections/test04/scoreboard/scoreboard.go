@@ -47,7 +47,9 @@ func Top(totals map[string]int, n int) []Entry {
 	}
 
 	// 返回前 n 个
-	return entries[:n]
+	result := make([]Entry, n)
+	copy(result, entries[:n])
+	return result
 }
 	// TODO: 把 map 转成切片，按「分数降序、姓名升序」排序，再截取前 n 个。
 

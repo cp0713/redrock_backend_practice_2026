@@ -45,7 +45,6 @@ func Top(totals map[string]int, n int) []Entry {
 	if n > len(entries) {
 		n = len(entries)
 	}
-
 	// 返回前 n 个
 	result := make([]Entry, n)
 	copy(result, entries[:n])

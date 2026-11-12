@@ -1,7 +1,9 @@
 package dns
 
 import ("errors"
-        "strings")
+        "strings"
+		"sort"
+	   )
 
 // ErrInvalid 表示域名或 IP 为空（去掉空白后）。
 var ErrInvalid = errors.New("dns: domain and ip must not be empty")
@@ -112,12 +114,23 @@ func (r *Resolver) Len() int {
 // ReverseLookup 返回所有指向 ip 的域名，按字典序升序。
 // 没有时返回长度为 0 的结果。调用方修改返回的切片不能影响 Resolver。
 func (r *Resolver) ReverseLookup(ip string) []string {
+	list := r.reverse[ip]
+
+	result := make([]string, len(list))
+	copy(result, list)
+
+	sort.Strings(result)
+	return result
 	// TODO
-	return nil
 }
 
 // Domains 返回所有域名，按字典序升序。
 func (r *Resolver) Domains() []string {
+	result := make([]string, 0, len(r.forward))
+    for domain := range r.forward {
+        result = append(result, domain)
+    }
+    sort.Strings(result)
+    return result
 	// TODO
-	return nil
 }

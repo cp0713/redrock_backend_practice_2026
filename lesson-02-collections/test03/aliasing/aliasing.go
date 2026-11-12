@@ -54,7 +54,7 @@ type Student struct {
 func Pointers(students []Student) []*Student {
 	result := make([]*Student, 0, len(students))
 	// BUG: range 给出的 student 是元素的副本，&student 指向的是副本，不是切片里的那一格。
-	for i, student := range students {
+	for i,_:= range students {
 		result = append(result, &student[i])
 	}
 	return result

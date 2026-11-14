@@ -5,7 +5,7 @@ type Point struct {
 	X, Y int
 }
 func (p Point) String() string {
-	return fmt.Sprint("(%d,%d)", p.X, p.Y)
+	return fmt.Sprintf("(%d,%d)", p.X, p.Y)
 // TODO: 给 Point 实现 fmt.Stringer，让 fmt.Sprint(Point{1, 2}) 输出 "(1, 2)"。
 
 // Describe 用 type switch 描述任意值 v。按下面的顺序匹配，先匹配到的优先：
@@ -31,7 +31,7 @@ func Describe(v any) string {
 		return fmt.Sprintf("string: %q", x)
 		case []int:
 		return fmt.Sprintf("[]int of len %d", x)
-		case others:
+		default:
 		return fmt.Sprintf("other: %T", x)
 	// TODO: switch x := v.(type) { ... }
 }
@@ -42,8 +42,8 @@ func Describe(v any) string {
 //
 // BUG: 直接写 a == b，两边都是切片时会 panic: runtime error: comparing uncomparable type。
 func SafeEqual(a, b any) (equal bool, comparable bool) {
-	if !reflect.TypeOf(a).Comparable() {
-    return false, nil
+	if !reflect.TypeOf(a).Comparable() || !reflect.TypeOf(b).Comparable() {
+    return false, false
 		}
 	return a == b, true
 }

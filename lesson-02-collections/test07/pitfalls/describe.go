@@ -1,10 +1,11 @@
 package pitfalls
-
+import "fmt"
 // Point 是平面上的一个点。
 type Point struct {
 	X, Y int
 }
-
+func (p Point) String() string {
+	return fmt.Sprint("(%d,%d)", p.X, p.Y)
 // TODO: 给 Point 实现 fmt.Stringer，让 fmt.Sprint(Point{1, 2}) 输出 "(1, 2)"。
 
 // Describe 用 type switch 描述任意值 v。按下面的顺序匹配，先匹配到的优先：
@@ -17,8 +18,22 @@ type Point struct {
 //	[]int               -> "[]int of len 3"
 //	其他                -> "other: " + 类型名（用 %T，例如 "other: float64"）
 func Describe(v any) string {
+	switch x := v.(type) {
+		case nil:
+		return "nil"
+		case error:
+		return "error" + x.Error()
+		case fmt.Stringer:
+		return "stringer: " + x.String()
+		case int:
+		return fmt.Sprintf("int: %d", x)
+		case string:
+		return fmt.Sprintf("string: %q", x)
+		case []int:
+		return fmt.Sprintf("[]int of len %d", x)
+		case others:
+		return fmt.Sprintf("other: %T", x)
 	// TODO: switch x := v.(type) { ... }
-	return ""
 }
 
 // SafeEqual 比较两个 any 是否相等。
@@ -27,5 +42,8 @@ func Describe(v any) string {
 //
 // BUG: 直接写 a == b，两边都是切片时会 panic: runtime error: comparing uncomparable type。
 func SafeEqual(a, b any) (equal bool, comparable bool) {
+	if !reflect.TypeOf(a).Comparable() {
+    return false, nil
+		}
 	return a == b, true
 }

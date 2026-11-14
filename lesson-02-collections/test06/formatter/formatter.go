@@ -18,8 +18,9 @@ type Formatter interface {
 type TextFormatter struct{}
 
 func (TextFormatter) Format(s Student) (string, error) {
+	line := fmt.Sprintf("%s: %d", s.Name, s.Score)
 	// TODO: 用 fmt.Sprintf("%s: %d", s.Name, s.Score)。
-	return "", nil
+	return line, nil
 }
 
 // JSONFormatter 输出机器读的 JSON。
@@ -33,6 +34,11 @@ func (JSONFormatter) Format(s Student) (string, error) {
 // FormatAll 按顺序调用每个 formatter，把结果收集起来。
 // 遇到第一个错误就返回已经收集到的结果和这个错误。
 func FormatAll(formatters []Formatter, s Student) ([]string, error) {
+	for i, f := range formatters {
+		line, err :=f.Format(s) 
+		if err != nil{
+			return nil, err
+			}
 	// TODO: 遍历 formatters，调用 Format，append 结果；err != nil 时立刻返回。
 	return nil, nil
 }

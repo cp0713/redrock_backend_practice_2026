@@ -31,5 +31,8 @@ func Validate(u User) error {
 	} else if u.Age < 0 || u.Age > 150 {
 		problem = &ValidationError{Field: "age", Reason: "out of range"}
 	}
+	if problem == nil{
+		return nil
+		}
 	return problem
 }

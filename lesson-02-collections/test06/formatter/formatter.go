@@ -43,5 +43,5 @@ func FormatAll(formatters []Formatter, s Student) ([]string, error) {
 		result[i] = line
 		}
 	// TODO: 遍历 formatters，调用 Format，append 结果；err != nil 时立刻返回。
-	return nil, nil
+	return result, nil
 }

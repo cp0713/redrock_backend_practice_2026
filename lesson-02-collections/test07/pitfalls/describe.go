@@ -30,7 +30,7 @@ func Describe(v any) string {
 		case string:
 		return fmt.Sprintf("string: %q", x)
 		case []int:
-		return fmt.Sprintf("[]int of len %d", x)
+		return fmt.Sprintf("[]int of len %d", len(x))
 		default:
 		return fmt.Sprintf("other: %T", x)
 	// TODO: switch x := v.(type) { ... }

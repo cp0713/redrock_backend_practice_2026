@@ -1,6 +1,9 @@
 package formatter
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // Student 是格式化器的输入。
 type Student struct {
@@ -36,12 +39,12 @@ func (JSONFormatter) Format(s Student) (string, error) {
 func FormatAll(formatters []Formatter, s Student) ([]string, error) {
 	result := make([]string, len(formatters))
 	for i, f := range formatters {
-		line, err :=f.Format(s) 
-		if err != nil{
+		line, err := f.Format(s)
+		if err != nil {
 			return nil, err
-			}
-		result[i] = line
 		}
+		result[i] = line
+	}
 	// TODO: 遍历 formatters，调用 Format，append 结果；err != nil 时立刻返回。
 	return result, nil
 }
